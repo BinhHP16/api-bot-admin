@@ -1,4 +1,4 @@
-package com.saltlux.botadmin.dto;
+package com.saltlux.botadmin.dto.congdoan;
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Login {
-    private String email;
-    private String password;
+public class TongTien {
+    private Integer sum;
 }

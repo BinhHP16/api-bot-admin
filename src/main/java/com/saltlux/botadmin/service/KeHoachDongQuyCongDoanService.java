@@ -2,10 +2,8 @@ package com.saltlux.botadmin.service;
 
 import com.saltlux.botadmin.dto.congdoan.DongQuyCongDoanDto;
 import com.saltlux.botadmin.dto.congdoan.UserDongQuyConvertDto;
-import com.saltlux.botadmin.entity.DongQuyCongDoanEntity;
 import com.saltlux.botadmin.entity.KeHoachDongQuyCongDoanEntity;
 import com.saltlux.botadmin.entity.UserEntity;
-import com.saltlux.botadmin.repository.DongQuyCongDoanRepository;
 import com.saltlux.botadmin.repository.KeHoachDongQuyCongDoanRepository;
 import com.saltlux.botadmin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

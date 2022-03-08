@@ -2,8 +2,6 @@ package com.saltlux.botadmin.controller;
 
 import com.saltlux.botadmin.dto.chamcong.ChamCongDto;
 import com.saltlux.botadmin.dto.chamcong.ChiTietDiMuonDto;
-import com.saltlux.botadmin.dto.chamcong.UserCheckinConvertDto;
-import com.saltlux.botadmin.dto.ngayle.NgayLeDto;
 import com.saltlux.botadmin.dto.ngaynghiphep.NgayNghiPhepConvertDto;
 import com.saltlux.botadmin.dto.ngaynghiphep.UserNgayNghiPhepDto;
 import com.saltlux.botadmin.entity.CheckinEntity;
@@ -16,12 +14,18 @@ import com.saltlux.botadmin.service.IUserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Api(tags = "Chấm công")
 @RestController
@@ -64,39 +68,40 @@ public class ChamCongController {
 //        return listNgayNghiPhep;
 //    }
 
-    @GetMapping("/ngay_nghi_phep_tung_nguoi/{userId}")
-    public UserNgayNghiPhepDto thongTinNgayNghiPhep(@PathVariable(name = "userId") Integer userId, @RequestParam Integer year) {
+    @GetMapping("/thong_tin_ngay_nghi_phep")
+    public UserNgayNghiPhepDto thongTinNgayNghiPhep(@RequestParam Integer userId, @RequestParam Integer year) {
         UserEntity user = service.findByUserId(userId);
         List<NgayNghiPhepEntity> nghiPhep = ngayNghiPhepService.ngayNghiPhepTrongNam(userId, year);
 
         List<NgayNghiPhepConvertDto> converts = new ArrayList<>();
         Double count = 0.0;
         for (NgayNghiPhepEntity convert : nghiPhep) {
-            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getId(), convert.getNgayNghiPhep(), convert.getManDay());
+            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getNgayNghiPhep(), convert.getManDay());
             converts.add(ngayNghi);
             count += convert.getManDay();
         }
 
-        UserNgayNghiPhepDto dto = new UserNgayNghiPhepDto(user.getId(), user.getHoTen(), user.getSoNgayNghiPhepTieuChuan(), user.getBoPhan(), converts, count, (user.getSoNgayNghiPhepTieuChuan() - count));
+        UserNgayNghiPhepDto dto = new UserNgayNghiPhepDto(user.getId(), user.getHoTen(),
+                user.getSoNgayNghiPhepTieuChuan(), user.getBoPhan(), converts, count, (user.getSoNgayNghiPhepTieuChuan() - count));
         return dto;
     }
 
 
-    @GetMapping("/chi_tiet_ngay_nghi_phep_tung_nguoi/{userId}")
-    public UserNgayNghiPhepDto chiTietNgayNghiPhep(@PathVariable(name = "userId") Integer userId,
+    @GetMapping("/chi_tiet_ngay_nghi_phep")
+    public List<NgayNghiPhepConvertDto> chiTietNgayNghiPhep(@RequestParam Integer userId,
                                                 @RequestParam Integer month, @RequestParam Integer year) {
         List<NgayNghiPhepEntity> nghiPhep = ngayNghiPhepService.chiTietNgayNghiPhep(userId, month, year);
-        UserEntity user = service.findByUserId(userId);
+//        UserEntity user = service.findByUserId(userId);
         List<NgayNghiPhepConvertDto> converts = new ArrayList<>();
         Double count = 0.0;
         for (NgayNghiPhepEntity convert : nghiPhep) {
-            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getId(), convert.getNgayNghiPhep(), convert.getManDay());
+            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getNgayNghiPhep(), convert.getManDay());
             converts.add(ngayNghi);
             count += convert.getManDay();
         }
 
-        UserNgayNghiPhepDto dto = new UserNgayNghiPhepDto(user.getId(), user.getHoTen(), user.getSoNgayNghiPhepTieuChuan(), user.getBoPhan(), converts, count);
-        return dto;
+//        UserNgayNghiPhepDto dto = new UserNgayNghiPhepDto(user.getId(), user.getHoTen(), user.getSoNgayNghiPhepTieuChuan(), user.getBoPhan(), converts, count);
+        return converts;
     }
 //
 //    @GetMapping("/checkin")
@@ -139,8 +144,8 @@ public class ChamCongController {
 //        return dto;
 //    }
 
-    @GetMapping("/{userId}")
-    public ChamCongDto chamCong(@PathVariable(name = "userId") Integer userId, @RequestParam Integer month, @RequestParam Integer year) {
+    @GetMapping("/")
+    public ChamCongDto chamCong(@RequestParam Integer userId, @RequestParam Integer month, @RequestParam Integer year) {
         UserEntity user = service.findByUserId(userId);
         String userName = user.getHoTen();
         String thoiGian = "" + month + "/" + year;
@@ -184,16 +189,23 @@ public class ChamCongController {
         }
 //        List<NgayLeDto> listNgayle
         int soNgayT7CN=0;
-        int holiday=0;
         int tongSoNgayCong=getDay(month,year);
-        for (int i = 0; i <=tongSoNgayCong;i++) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(year, month, i);
-            DateFormat formatter = new SimpleDateFormat("EEEE", Locale.getDefault());
-            System.out.println(formatter.format(cal.getTime()));
-            if(formatter.format(cal.getTime()).equals("Saturday")||formatter.format(cal.getTime()).equals("Sunday")){
+        for (int i = 1; i <=tongSoNgayCong;i++) {
+//            Calendar cal = Calendar.getInstance();
+//            cal.set(year, month, i);
+//            DateFormat formatter = new SimpleDateFormat("EEEE", Locale.getDefault());
+//            System.out.println(formatter.format(cal.getTime()));
+//            if(formatter.format(cal.getTime()).equals("Saturday")||formatter.format(cal.getTime()).equals("Sunday")){
+//                soNgayT7CN+=1;
+//            }
+
+            LocalDate date = LocalDate.of(year, month, i);
+            DayOfWeek day = date.getDayOfWeek();
+            if(day.getValue()==6||day.getValue()==7){
                 soNgayT7CN+=1;
+
             }
+
         }
 
         int ngayCongDuKien=tongSoNgayCong-soNgayT7CN;
@@ -206,8 +218,8 @@ public class ChamCongController {
         return chamCong;
     }
 
-    @GetMapping("/chi_tiet_di_muon/{userId}")
-    public List<ChiTietDiMuonDto> chiTietDiMuon(@PathVariable(name = "userId") Integer userId, @RequestParam Integer month, @RequestParam Integer year) {
+    @GetMapping("/chi_tiet_di_muon")
+    public List<ChiTietDiMuonDto> chiTietDiMuon(@RequestParam Integer userId, @RequestParam Integer month, @RequestParam Integer year) {
 
         String thoiGian = "" + month + "/" + year;
 

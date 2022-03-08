@@ -1,6 +1,5 @@
 package com.saltlux.botadmin.repository;
 
-import com.saltlux.botadmin.dto.UserDto;
 import com.saltlux.botadmin.entity.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query("SELECT s from UserEntity s where s.id=:userId")
     UserEntity findByUserId(@Param("userId") Integer userId);
 
-    @Query(value = " SELECT * FROM data_bot_admin.user where user.password=:password and user.email=:email", nativeQuery = true)
-    UserEntity findByEmailAndPassword(String email, String password);
+    @Query(value = " SELECT * FROM data_bot_admin.user where  user.email=:email", nativeQuery = true)
+    UserEntity findByEmailAndPassword(String email);
 }

@@ -1,59 +1,42 @@
 package com.saltlux.botadmin;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BotAdminApplication {
-    @Value("${email.from}")
-    private static String email;
 
-
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         SpringApplication.run(BotAdminApplication.class, args);
+//
+//        String password = "123456";
+//        MessageDigest md = MessageDigest.getInstance("MD5");
+//        md.update(password.getBytes());
+//        byte[] digest = md.digest();
+//        String myHash = DatatypeConverter
+//                .printHexBinary(digest).toUpperCase();
+//        System.out.println("My Hash: " + myHash);
 
-//
-//        System.out.println(new java.util.Date());
-//        System.out.println("Hello World");
-//        String dateStart = "11/03/14 09:29:58";
-//        String dateStop = "08:50:00";
-//
-//        System.out.println(new java.util.Date());
-//        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-//        Date date=new java.util.Date();
-//       String x= "08:00:00";
-//
-//        Date d1 = null;
-//        Date d2 = null;
-//        try {
-//            d1 = format.parse(x);
-//            d2 = format.parse(dateStop);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // Get msec from each, and subtract.
-//        long diff = d2.getTime() - d1.getTime();
-//        long diffSeconds = diff / 1000 % 60;
-//        long diffMinutes = diff / (60 * 1000) % 60;
-//        long diffHours = diff / (60 * 60 * 1000);
-//        System.out.println("Time in seconds: " + diffSeconds + " seconds.");
-//        System.out.println("Time in minutes: " + diffMinutes + " minutes.");
-//        System.out.println("Time in hours: " + diffHours + " hours.");
-//
-//       String date1= "2022-02-13 00:00:00";
-        System.out.println(email);
+        System.out.println(new Date());
+        System.out.println("Verify: " + verify("123456", "E10ADC3949BA59ABBE56E057F20F883E"));
 
+    }
+
+    public static boolean verify(String inputPassword, String hashPassWord)
+            throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(inputPassword.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter
+                .printHexBinary(digest).toUpperCase();
+        return hashPassWord.equals(myChecksum);
     }
 
 }

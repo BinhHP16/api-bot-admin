@@ -1,19 +1,17 @@
 package com.saltlux.botadmin.controller;
 
-import com.saltlux.botadmin.dto.Login;
-import com.saltlux.botadmin.dto.UserDto;
+import com.saltlux.botadmin.dto.user.ListUserDto;
+import com.saltlux.botadmin.dto.user.Login;
+import com.saltlux.botadmin.dto.user.ResultLogin;
+import com.saltlux.botadmin.dto.user.UserDto;
 import com.saltlux.botadmin.entity.UserEntity;
 import com.saltlux.botadmin.service.IUserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 @Api(tags = "User")
 @RestController
@@ -23,29 +21,28 @@ public class UserController {
     IUserService service;
 
     @GetMapping("/all")
-    public List<UserDto> getAll() {
+    public List<ListUserDto> getAll() {
 
         return service.finAll();
     }
 
-    @GetMapping("/{userId}")
-    public UserDto finById(@PathVariable Integer userId) {
+    @GetMapping("/detail")
+    public UserDto finById(@RequestParam Integer userId) {
 
         return service.finById(userId);
     }
 
     @PostMapping("/log_in")
-    public Integer Login(@Valid @RequestBody Login login) {
-
-        UserEntity user =service.findByEmailAndPassword(login.getEmail(), login.getPassword());
-        if (user!=null) {
-            return user.getId();
+    public ResultLogin Login(@Valid @RequestBody Login login) {
+        UserEntity user = service.findByEmailAndPassword(login.getEmail(), login.getPassword());
+        if (user != null) {
+            ResultLogin resultLogin = new ResultLogin(user.getId(), 1);
+            return resultLogin;
         } else {
-            return 0;
+            ResultLogin resultLogin = new ResultLogin(0, 0);
+            return resultLogin;
         }
     }
-
-
 
 
 //    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)

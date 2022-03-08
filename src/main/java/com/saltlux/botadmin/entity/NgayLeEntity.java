@@ -26,8 +26,8 @@ public class NgayLeEntity implements Serializable {
     @Column(name = "ten_ngay_le")
     private String tenNgayLe;
 
-    @Column(name = "ghi_chu",columnDefinition = "TEXT")
-    private String ghiChu;
+    @Column(name = "nam")
+    private Integer nam;
     @OneToMany(mappedBy="ngayLe")
     private Set<ChiTietNgayLeEntity> listThoiGianNgayLe;
 }

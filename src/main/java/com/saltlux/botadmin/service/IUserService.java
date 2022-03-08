@@ -1,14 +1,14 @@
 package com.saltlux.botadmin.service;
 
-import com.saltlux.botadmin.dto.UserDto;
+import com.saltlux.botadmin.dto.user.ListUserDto;
+import com.saltlux.botadmin.dto.user.UserDto;
 import com.saltlux.botadmin.entity.UserEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IUserService {
     List<UserEntity> getAll();
-    List<UserDto> finAll();
+    List<ListUserDto> finAll();
 
     UserEntity findByUserId(Integer userId);
 

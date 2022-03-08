@@ -1,4 +1,4 @@
-//package com.saltlux.botadmin.dto;
+package com.saltlux.botadmin.dto.ngayle;//package com.saltlux.botadmin.dto;
 //
 //import lombok.Data;
 //import lombok.Getter;

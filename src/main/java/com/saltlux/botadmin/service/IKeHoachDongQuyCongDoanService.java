@@ -1,6 +1,5 @@
 package com.saltlux.botadmin.service;
 
-import com.saltlux.botadmin.entity.DongQuyCongDoanEntity;
 import com.saltlux.botadmin.entity.KeHoachDongQuyCongDoanEntity;
 
 import java.util.List;

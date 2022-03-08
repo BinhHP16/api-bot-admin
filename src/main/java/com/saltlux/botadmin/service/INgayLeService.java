@@ -5,5 +5,5 @@ import com.saltlux.botadmin.dto.ngayle.NgayLeDto;
 import java.util.List;
 
 public interface INgayLeService {
-    List<NgayLeDto> chiTietNgayLe();
+    List<NgayLeDto> chiTietNgayLe(int year);
 }

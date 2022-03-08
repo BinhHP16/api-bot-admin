@@ -1,6 +1,5 @@
 package com.saltlux.botadmin.dto.congdoan;
 
-import com.saltlux.botadmin.dto.UserDto;
 import lombok.*;
 import lombok.experimental.Accessors;
 

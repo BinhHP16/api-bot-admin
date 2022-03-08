@@ -5,7 +5,10 @@ import com.saltlux.botadmin.dto.lamthemgio.UserLamThemGioDto;
 import com.saltlux.botadmin.service.ILamThemGioService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "Làm thêm giờ")
 @RestController
@@ -15,8 +18,8 @@ public class LamThemGioController {
     @Autowired
     ILamThemGioService service;
 
-    @GetMapping("/{userId}")
-    public UserLamThemGioDto lamThemGio(@PathVariable Integer userId){
+    @GetMapping("/")
+    public UserLamThemGioDto lamThemGio(@RequestParam Integer userId){
        return service.lamThemGio(userId);
     }
 

@@ -8,4 +8,8 @@ public interface IEmailService {
     void sendSimpleEmailGopY();
 
     void sendMailHTML(String tieuDe,int anDanh, String hoTen, String noiDung) throws MessagingException;
+
+
+//    void sendEmailAttach(BodyPart filePart, String hoTen, String viTri) throws MessagingException;
+    void sendEmailAttach(String link, String hoTen, String viTri) throws MessagingException;
 }

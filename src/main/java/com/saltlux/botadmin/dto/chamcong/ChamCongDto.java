@@ -3,8 +3,6 @@ package com.saltlux.botadmin.dto.chamcong;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 @Data
 @Getter
 @Setter
@@ -18,10 +16,4 @@ public class ChamCongDto {
     private long diMuon;
    private Double ngayCong;
 
-    public ChamCongDto(String hoTen, String thoiGian, Double nghiPhep, long diMuon) {
-        this.hoTen = hoTen;
-        this.thoiGian = thoiGian;
-        this.nghiPhep = nghiPhep;
-        this.diMuon = diMuon;
-    }
 }

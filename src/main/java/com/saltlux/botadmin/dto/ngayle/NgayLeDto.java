@@ -14,8 +14,18 @@ import java.util.List;
 public class NgayLeDto {
     private Integer id;
     private String tenNgayLe;
-    private String ghiChu;
     private List listNgayle;
+    private String listThoiGian;
 
+    public NgayLeDto(Integer id, String tenNgayLe, List listNgayle) {
+        this.id = id;
+        this.tenNgayLe = tenNgayLe;
+        this.listNgayle = listNgayle;
+    }
 
+    public NgayLeDto(Integer id, String tenNgayLe, String listThoiGian) {
+        this.id = id;
+        this.tenNgayLe = tenNgayLe;
+        this.listThoiGian = listThoiGian;
+    }
 }

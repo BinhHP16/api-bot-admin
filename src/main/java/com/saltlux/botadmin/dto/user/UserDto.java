@@ -1,4 +1,4 @@
-package com.saltlux.botadmin.dto;
+package com.saltlux.botadmin.dto.user;
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -19,6 +19,7 @@ public class UserDto {
     private String sdt;
     private String email;
     private Integer soNgayNghiPhepTieuChuan;
+    private Integer result;
 
 
 }

@@ -1,6 +1,5 @@
 package com.saltlux.botadmin.repository;
 
-import com.saltlux.botadmin.entity.DongQuyCongDoanEntity;
 import com.saltlux.botadmin.entity.KeHoachDongQuyCongDoanEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

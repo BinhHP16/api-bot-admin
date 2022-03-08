@@ -3,8 +3,6 @@ package com.saltlux.botadmin.dto.tuyendung;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-
 @Data
 @Getter
 @Setter

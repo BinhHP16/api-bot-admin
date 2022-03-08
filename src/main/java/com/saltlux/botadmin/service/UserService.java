@@ -1,16 +1,19 @@
 package com.saltlux.botadmin.service;
 
-import com.saltlux.botadmin.dto.UserDto;
-import com.saltlux.botadmin.dto.congdoan.UserDongQuyConvertDto;
+import com.saltlux.botadmin.dto.user.ListUserDto;
+import com.saltlux.botadmin.dto.user.UserDto;
 import com.saltlux.botadmin.entity.UserEntity;
 import com.saltlux.botadmin.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @Service
@@ -24,12 +27,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserDto> finAll() {
-        List<UserDto> dtos=new ArrayList<>();
+    public List<ListUserDto> finAll() {
+        List<ListUserDto> dtos=new ArrayList<>();
         List<UserEntity> listUsers=repository.findAll();
         for (UserEntity user : listUsers) {
-            UserDto dto =new UserDto(user.getId(),user.getHoTen(),user.getBoPhan(),user.getGioiTinh(),
-                    user.getNgaySinh(),user.getSdt(),user.getEmail(),user.getSoNgayNghiPhepTieuChuan());
+            ListUserDto dto =new ListUserDto(user.getId(),user.getHoTen());
             dtos.add(dto);
         }
 
@@ -46,7 +48,7 @@ public class UserService implements IUserService {
     public UserDto finById(Integer userId) {
         UserEntity user =repository.findByUserId(userId);
         UserDto dto =new UserDto(user.getId(),user.getHoTen(),user.getBoPhan(),user.getGioiTinh(),
-                user.getNgaySinh(),user.getSdt(),user.getEmail(),user.getSoNgayNghiPhepTieuChuan());
+                user.getNgaySinh(),user.getSdt(),user.getEmail(),user.getSoNgayNghiPhepTieuChuan(),1);
 
         return dto;
     }
@@ -54,8 +56,28 @@ public class UserService implements IUserService {
     @Override
     public UserEntity findByEmailAndPassword(String email, String password) {
 
-       return repository.findByEmailAndPassword(email,password);
+        UserEntity user =repository.findByEmailAndPassword(email);
+        System.out.println(new Date());
+        try {
+            if(verify(password, user.getPassword())){
+                return user;
+            }
+            System.out.println("Verify: " + verify("123456", "E10ADC3949BA59ABBE56E057F20F883E"));
+        } catch (NoSuchAlgorithmException e) {
+            log.info(e.getMessage(),e);
+            e.printStackTrace();
 
+        }
+        return null;
+    }
+    public static boolean verify(String inputPassword, String hashPassWord)
+            throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(inputPassword.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter
+                .printHexBinary(digest).toUpperCase();
+        return hashPassWord.equals(myChecksum);
     }
 
 

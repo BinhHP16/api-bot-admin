@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
+
 @Api(tags = "Mẫu biểu")
 @PropertySource("classpath:application.properties")
 @RestController
@@ -32,7 +31,7 @@ public class MauBieuController {
 
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void downloadMauBieu(HttpServletResponse response, @RequestParam String code) throws IOException {
+    public String downloadMauBieu(HttpServletResponse response, @RequestParam("code") String code) throws IOException {
         MauBieuEntity mauBieu=service.findByCode(code);
 
         try {
@@ -48,5 +47,25 @@ public class MauBieuController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return null;
     }
+
+
+    @GetMapping("/list_mau_bieu/")
+    public List<MauBieuEntity> getAll( ) {
+       return service.findAll();
+    }
+//
+//    @GetMapping("/list_download/")
+//    public List<FormDownLoadDto> listDownload( ) {
+//        List<FormDownLoadDto> formDtos=new ArrayList<>();
+//
+//        List<MauBieuEntity> entities=service.findAll();
+//        for (MauBieuEntity entity : entities) {
+//
+//        }
+//
+//        return formDtos;
+//    }
+
 }

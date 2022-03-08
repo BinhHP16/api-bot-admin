@@ -1,24 +1,18 @@
 package com.saltlux.botadmin.controller;
 
-import com.saltlux.botadmin.dto.tuyendung.CVDto;
 import com.saltlux.botadmin.dto.tuyendung.ThongTinTuyenDungDto;
 import com.saltlux.botadmin.entity.CategoryTuyenDungEntity;
 import com.saltlux.botadmin.entity.ThongTinTuyenDungEntity;
-import com.saltlux.botadmin.model.MyFile;
-import com.saltlux.botadmin.service.IEmailService;
 import com.saltlux.botadmin.service.IThongTinTuyenDungService;
-import com.saltlux.botadmin.service.IThongTinUngVienService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Api(tags = "Tuyển dụng")
 @RestController

@@ -2,14 +2,15 @@ package com.saltlux.botadmin.controller;
 
 import com.saltlux.botadmin.dto.congdoan.*;
 import com.saltlux.botadmin.entity.DongQuyCongDoanEntity;
-import com.saltlux.botadmin.entity.HomThuGopYEntity;
 import com.saltlux.botadmin.entity.UserEntity;
 import com.saltlux.botadmin.exception.DuplicatedColumnsException;
+import com.saltlux.botadmin.multiple_thread.SendEmailFeedbackThread;
 import com.saltlux.botadmin.payload.HomThuGopYReq;
 import com.saltlux.botadmin.service.*;
 import io.swagger.annotations.Api;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,17 @@ import java.util.List;
 @Api(tags = "Công đoàn")
 @RequestMapping("/api/cong_doan")
 public class CongDoanController {
+
+    @Value("${email.to}")
+    public  String FRIEND_EMAIL ;
+
+    @Value("${email.from}")
+    public  String MY_EMAIL ;
+
+
+    @Value("${email.password}")
+    public  String PASSWORD ;
+
 
     @Autowired
     IEmailService emailService;
@@ -123,14 +135,14 @@ public class CongDoanController {
     }
 
     @GetMapping("/thu/tong_tien_thu")
-    public Integer tongTien(Integer year) {
+    public TongTien tongTien(Integer year) {
 
-        return dongQuyCongDoanService.tongThu(year);
+        return new TongTien(dongQuyCongDoanService.tongThu(year));
     }
 
 
-    @GetMapping("/chi_tiet_thu_tung_nguoi/{userId}")
-    public UserDongQuyConvertDto chiTietThuTungNguoi(@PathVariable Integer userId, @RequestParam Integer year) {
+    @GetMapping("/chi_tiet_thu_tung_nguoi")
+    public UserDongQuyConvertDto chiTietThuTungNguoi(@RequestParam Integer userId, @RequestParam Integer year) {
         UserEntity user = service.findByUserId(userId);
         List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
 
@@ -172,23 +184,26 @@ public class CongDoanController {
     }
 
     @GetMapping("/chi/tong_chi")
-    public Integer tongChi(@RequestParam Integer year) {
+    public TongTien tongChi(@RequestParam Integer year) {
 
-        return chiPhiService.tongChi(year);
+        return new TongTien(chiPhiService.tongChi(year));
     }
 
     @PostMapping("/hom_thu_gop_y")
     public Integer save(@Valid @RequestBody HomThuGopYReq request) throws MissingServletRequestParameterException, InvocationTargetException, NoSuchMethodException, DuplicatedColumnsException, IllegalAccessException, MessagingException {
-        if (request == null) {
-            throw new MissingServletRequestParameterException(null, null);
-        }
-         homThuGopYService.saveHomThuGopY(request);
         int anDanh=request.getAnDanh();
         String hoTen=request.getNguoiGui();
         String noiDung=request.getNoiDung();
         String tieuDe=request.getTieuDe();
+        SendEmailFeedbackThread T1 = new SendEmailFeedbackThread("SendEmail",tieuDe,anDanh, hoTen,noiDung, FRIEND_EMAIL, MY_EMAIL,PASSWORD);
+        T1.start();
+        if (request == null) {
+            throw new MissingServletRequestParameterException(null, null);
+        }
+         homThuGopYService.saveHomThuGopY(request);
 
-        emailService.sendMailHTML(tieuDe,anDanh, hoTen, noiDung);
+
+//        emailService.sendMailHTML(tieuDe,anDanh, hoTen, noiDung);
         return 1;
     }
 
@@ -203,17 +218,17 @@ public class CongDoanController {
 
         Integer soDuDauNam = tongThuNamTruoc - tongChiNamTruoc;
 
-        KeHoachThuChiDto duDauNam = new KeHoachThuChiDto("soDuDauNam", soDuDauNam, 0, soDuDauNam, 0);
+        KeHoachThuChiDto duDauNam = new KeHoachThuChiDto("Số dư đầu năm", soDuDauNam, 0, soDuDauNam, 0);
         list.add(duDauNam);
 
         Integer tongThuTrongNam = dongQuyCongDoanService.tongThu(year);
 
-        KeHoachThuChiDto thuTrongNam = new KeHoachThuChiDto("thuTrongNam", tongThuTrongNam, 0, tongThuTrongNam + soDuDauNam, 0);
+        KeHoachThuChiDto thuTrongNam = new KeHoachThuChiDto("Thu trong năm", tongThuTrongNam, 0, tongThuTrongNam + soDuDauNam, 0);
         list.add(thuTrongNam);
 
         Integer tongChiTrongNam = chiPhiService.tongChi(year);
         tongTonCuoiKy += tongThuTrongNam + soDuDauNam - tongChiTrongNam;
-        KeHoachThuChiDto chiTrongNam = new KeHoachThuChiDto("chiTrongNam", 0, tongChiTrongNam, tongTonCuoiKy, 0);
+        KeHoachThuChiDto chiTrongNam = new KeHoachThuChiDto("Chi trong năm", 0, tongChiTrongNam, tongTonCuoiKy, 0);
         list.add(chiTrongNam);
 
         int tongGhiCo = soDuDauNam + tongThuTrongNam;
@@ -226,7 +241,7 @@ public class CongDoanController {
             list.add(dto);
         }
 
-        KeHoachThuChiDto congPhatSinh = new KeHoachThuChiDto("congPhatSinhTrongKy", tongGhiCo, tongGhiNo, tongTonCuoiKy - tongGhiNo, 0);
+        KeHoachThuChiDto congPhatSinh = new KeHoachThuChiDto("Cộng phát sinh trong kỳ", tongGhiCo, tongGhiNo, tongTonCuoiKy - tongGhiNo, 0);
         list.add(congPhatSinh);
 
         return list;
@@ -246,17 +261,17 @@ public class CongDoanController {
 
         Integer soDuDauNam = tongThuNamTruoc - tongChiNamTruoc;
 
-        KeHoachThuChiDto duDauNam = new KeHoachThuChiDto("soDuDauNam", soDuDauNam, 0, soDuDauNam, 0);
+        KeHoachThuChiDto duDauNam = new KeHoachThuChiDto("Số dư đầu năm", soDuDauNam, 0, soDuDauNam, 0);
         list.add(duDauNam);
 
         Integer tongThuTrongNam = keHoachDongQuyCongDoanService.tongThu(year);
 
-        KeHoachThuChiDto thuTrongNam = new KeHoachThuChiDto("thuTrongNam", tongThuTrongNam, 0, tongThuTrongNam + soDuDauNam, 0);
+        KeHoachThuChiDto thuTrongNam = new KeHoachThuChiDto("Thu trong năm", tongThuTrongNam, 0, tongThuTrongNam + soDuDauNam, 0);
         list.add(thuTrongNam);
 
         Integer tongChiTrongNam = keHoachChiPhiService.tongChi(year);
         tongTonCuoiKy += tongThuTrongNam + soDuDauNam - tongChiTrongNam;
-        KeHoachThuChiDto chiTrongNam = new KeHoachThuChiDto("chiTrongNam", 0, tongChiTrongNam, tongTonCuoiKy, 0);
+        KeHoachThuChiDto chiTrongNam = new KeHoachThuChiDto("Chi trong năm", 0, tongChiTrongNam, tongTonCuoiKy, 0);
         list.add(chiTrongNam);
 
         int tongGhiCo = soDuDauNam + tongThuTrongNam;
@@ -269,7 +284,7 @@ public class CongDoanController {
             list.add(dto);
         }
 
-        KeHoachThuChiDto congPhatSinh = new KeHoachThuChiDto("congPhatSinhTrongKy", tongGhiCo, tongGhiNo, tongTonCuoiKy - tongGhiNo, 0);
+        KeHoachThuChiDto congPhatSinh = new KeHoachThuChiDto("Cộng phát sinh trong kỳ", tongGhiCo, tongGhiNo, tongTonCuoiKy - tongGhiNo, 0);
         list.add(congPhatSinh);
 
         return list;

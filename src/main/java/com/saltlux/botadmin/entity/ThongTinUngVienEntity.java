@@ -29,12 +29,12 @@ public class ThongTinUngVienEntity implements Serializable {
     @Column(name = "vi_tri_ung_tuyen")
     private String viTriUngTuyen;
 
-    @Column(name = "cv_path")
-    private String pathCV;
+    @Column(name = "link")
+    private String linkCV;
 
-    public ThongTinUngVienEntity(String hoTen, String viTriUngTuyen, String pathCV) {
+    public ThongTinUngVienEntity(String hoTen, String viTriUngTuyen, String linkCV) {
         this.hoTen = hoTen;
         this.viTriUngTuyen = viTriUngTuyen;
-        this.pathCV = pathCV;
+        this.linkCV = linkCV;
     }
 }

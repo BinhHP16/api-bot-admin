@@ -1,4 +1,4 @@
-package com.saltlux.botadmin.dto.ngaynghiphep;
+package com.saltlux.botadmin.dto.ngayle;
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -11,11 +11,6 @@ import java.util.Date;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class NgayNghiPhepConvertDto {
-//    private Integer id;
-    private Date ngayNghi;
-    private Double manDay;
-
-
-
+public class ListNgayLeDto {
+    private Date thoiGian;
 }
