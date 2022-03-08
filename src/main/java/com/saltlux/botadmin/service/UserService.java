@@ -34,8 +34,6 @@ public class UserService implements IUserService {
             ListUserDto dto =new ListUserDto(user.getId(),user.getHoTen());
             dtos.add(dto);
         }
-
-
         return dtos;
     }
 
@@ -70,6 +68,19 @@ public class UserService implements IUserService {
         }
         return null;
     }
+
+    @Override
+    public List<UserDto> finByname(String userName) {
+        List<UserEntity> users =repository.finByname(userName);
+        List<UserDto> dtos=new ArrayList<>();
+        for (UserEntity user : users) {
+            UserDto dto =new UserDto(user.getId(),user.getHoTen(),user.getBoPhan(),user.getGioiTinh(),
+                    user.getNgaySinh(),user.getSdt(),user.getEmail(),user.getSoNgayNghiPhepTieuChuan(),1);
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
     public static boolean verify(String inputPassword, String hashPassWord)
             throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");

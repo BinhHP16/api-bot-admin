@@ -81,6 +81,7 @@ public class CongDoanController {
             int tongTienThang10 = 0;
             int tongTienThang11 = 0;
             int tongTienThang12 = 0;
+            int sum=0;
             for (DongQuyCongDoanEntity convert : list) {
 
                 Date date = convert.getNgayDong();
@@ -122,11 +123,13 @@ public class CongDoanController {
                 if (month == 12) {
                     tongTienThang12 += convert.getSoTien();
                 }
+                sum=tongTienThang1+tongTienThang2+tongTienThang3+tongTienThang4+tongTienThang5+tongTienThang6+tongTienThang7+tongTienThang8+tongTienThang9+
+                        tongTienThang10+tongTienThang11+tongTienThang12;
 
             }
             TongHopThuQuyCongDoanDto dto = new TongHopThuQuyCongDoanDto(user.getHoTen(), tongTienThang1, tongTienThang2, tongTienThang3,
                     tongTienThang4, tongTienThang5, tongTienThang6, tongTienThang7, tongTienThang8, tongTienThang9,
-                    tongTienThang10, tongTienThang11, tongTienThang12);
+                    tongTienThang10, tongTienThang11, tongTienThang12,sum);
             converts.add(dto);
         }
 
@@ -141,40 +144,110 @@ public class CongDoanController {
     }
 
 
+//    @GetMapping("/chi_tiet_thu_tung_nguoi")
+//    public UserDongQuyConvertDto chiTietThuTungNguoi(@RequestParam Integer userId, @RequestParam Integer year) {
+//        UserEntity user = service.findByUserId(userId);
+//        List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
+//
+//
+//        List<TongHopThuQuyCongDoanTungNguoiDto> converts = new ArrayList<>();
+//
+//        int tongTien = 0;
+//        log.info("Show log to debug");
+//        for (int i = 1; i <= 12; i++) {
+//            int tongTienThang = 0;
+//            for (DongQuyCongDoanEntity convert : list) {
+//
+//                Date date = convert.getNgayDong();
+//                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//                int month = localDate.getMonthValue();
+//
+//                log.info(month);
+//                if (month == i) {
+//                    tongTienThang += convert.getSoTien();
+//                    tongTien += convert.getSoTien();
+//                }
+//            }
+//            TongHopThuQuyCongDoanTungNguoiDto dto = new TongHopThuQuyCongDoanTungNguoiDto("Tháng " + i, tongTienThang);
+//            converts.add(dto);
+//        }
+//
+//
+//        UserDongQuyConvertDto dtos = new UserDongQuyConvertDto(user.getId(),
+//                user.getHoTen(), tongTien, converts);
+//
+//
+//        return dtos;
+//    }
     @GetMapping("/chi_tiet_thu_tung_nguoi")
-    public UserDongQuyConvertDto chiTietThuTungNguoi(@RequestParam Integer userId, @RequestParam Integer year) {
+    public TongHopThuQuyCongDoanDto chiTietThuTungNguoi(@RequestParam Integer userId, @RequestParam Integer year) {
         UserEntity user = service.findByUserId(userId);
-        List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
 
 
-        List<TongHopThuQuyCongDoanTungNguoiDto> converts = new ArrayList<>();
 
-        int tongTien = 0;
-        log.info("Show log to debug");
-        for (int i = 1; i <= 12; i++) {
-            int tongTienThang = 0;
+            List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
+            int tongTienThang1 = 0;
+            int tongTienThang2 = 0;
+            int tongTienThang3 = 0;
+            int tongTienThang4 = 0;
+            int tongTienThang5 = 0;
+            int tongTienThang6 = 0;
+            int tongTienThang7 = 0;
+            int tongTienThang8 = 0;
+            int tongTienThang9 = 0;
+            int tongTienThang10 = 0;
+            int tongTienThang11 = 0;
+            int tongTienThang12 = 0;
+            int sum=0;
             for (DongQuyCongDoanEntity convert : list) {
 
                 Date date = convert.getNgayDong();
                 LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 int month = localDate.getMonthValue();
-
-                log.info(month);
-                if (month == i) {
-                    tongTienThang += convert.getSoTien();
-                    tongTien += convert.getSoTien();
+                if (month == 1) {
+                    tongTienThang1 += convert.getSoTien();
                 }
+                if (month == 2) {
+                    tongTienThang2 += convert.getSoTien();
+                }
+                if (month == 3) {
+                    tongTienThang3 += convert.getSoTien();
+                }
+                if (month == 4) {
+                    tongTienThang4 += convert.getSoTien();
+                }
+                if (month == 5) {
+                    tongTienThang5 += convert.getSoTien();
+                }
+                if (month == 6) {
+                    tongTienThang6 += convert.getSoTien();
+                }
+                if (month == 7) {
+                    tongTienThang7 += convert.getSoTien();
+                }
+                if (month == 8) {
+                    tongTienThang8 += convert.getSoTien();
+                }
+                if (month == 9) {
+                    tongTienThang9 += convert.getSoTien();
+                }
+                if (month == 10) {
+                    tongTienThang10 += convert.getSoTien();
+                }
+                if (month == 11) {
+                    tongTienThang11 += convert.getSoTien();
+                }
+                if (month == 12) {
+                    tongTienThang12 += convert.getSoTien();
+                }
+                sum=tongTienThang1+tongTienThang2+tongTienThang3+tongTienThang4+tongTienThang5+tongTienThang6+tongTienThang7+tongTienThang8+tongTienThang9+
+                        tongTienThang10+tongTienThang11+tongTienThang12;
+
             }
-            TongHopThuQuyCongDoanTungNguoiDto dto = new TongHopThuQuyCongDoanTungNguoiDto("Tháng " + i, tongTienThang);
-            converts.add(dto);
-        }
-
-
-        UserDongQuyConvertDto dtos = new UserDongQuyConvertDto(user.getId(),
-                user.getHoTen(), tongTien, converts);
-
-
-        return dtos;
+            TongHopThuQuyCongDoanDto dto = new TongHopThuQuyCongDoanDto(user.getHoTen(), tongTienThang1, tongTienThang2, tongTienThang3,
+                    tongTienThang4, tongTienThang5, tongTienThang6, tongTienThang7, tongTienThang8, tongTienThang9,
+                    tongTienThang10, tongTienThang11, tongTienThang12,sum);
+        return dto;
     }
 
     @GetMapping("/chi")

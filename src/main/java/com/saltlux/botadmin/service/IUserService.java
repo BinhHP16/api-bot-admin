@@ -16,7 +16,7 @@ public interface IUserService {
 
     UserEntity findByEmailAndPassword(String email, String password);
 
-
+    List<UserDto> finByname(String userName);
 
 
 //    PagedResponse<UserEntity> getAll(int page, int size, String orderBy, String sortDirection);

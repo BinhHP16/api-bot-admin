@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "User")
@@ -42,6 +43,13 @@ public class UserController {
             ResultLogin resultLogin = new ResultLogin(0, 0);
             return resultLogin;
         }
+    }
+
+    @GetMapping("/detail_by_name")
+    public List<UserDto> finByName(@RequestParam String userName) {
+        List<UserDto> results = service.finByname(userName);
+
+        return results;
     }
 
 

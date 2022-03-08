@@ -23,5 +23,6 @@ public class TongHopThuQuyCongDoanDto {
     private Integer thang10;
     private Integer thang11;
     private Integer thang12;
+    private Integer sum;
 
 }
