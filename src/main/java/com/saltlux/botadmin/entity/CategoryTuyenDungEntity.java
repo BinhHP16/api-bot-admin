@@ -23,10 +23,8 @@ public class CategoryTuyenDungEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "vi_tri")
     private String viTri;
-
 
     @Column(name = "code")
     private String code;
@@ -35,10 +33,8 @@ public class CategoryTuyenDungEntity implements Serializable {
     @Column(name = "thoi_gian",columnDefinition = "DATE_TIME")
     private Date thoiGian;
 
-
     @Column(name = "dia_diem")
     private String diaDiem;
-
 
     @Column(name = "muc_luong")
     private String mucLuong;

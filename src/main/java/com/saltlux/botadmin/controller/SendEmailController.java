@@ -12,7 +12,10 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.util.Properties;
 
@@ -26,14 +29,14 @@ public class SendEmailController {
 
     @ResponseBody
     @GetMapping("/")
-    public String sendSimpleEmail(){
-    return emailService.sendSimpleEmail();
+    public String sendSimpleEmail() {
+        return emailService.sendSimpleEmail();
 
     }
 
     @GetMapping("/email_gop_y")
 
-    public void sendHTML(int anDanh, String hoten, String noiDung) throws AddressException, MessagingException {
+    public void sendHTML(int anDanh, String hoten, String noiDung) throws MessagingException {
         Properties mailServerProperties;
         Session getMailSession;
         MimeMessage mailMessage;
@@ -52,10 +55,10 @@ public class SendEmailController {
 
         // Bạn có thể chọn CC, BCC
 //    generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("cc@gmail.com")); //Địa chỉ cc gmail
-        String trangThaiAnDanh ="Không ẩn danh ";
-        if(anDanh==1){
-            trangThaiAnDanh="Ẩn danh";
-            hoten="Ẩn danh";
+        String trangThaiAnDanh = "Không ẩn danh ";
+        if (anDanh == 1) {
+            trangThaiAnDanh = "Ẩn danh";
+            hoten = "Ẩn danh";
         }
 
 
@@ -63,9 +66,9 @@ public class SendEmailController {
         String emailBody = "<p></p>\n" +
                 "<p>Thân gửi bộ phận công đoàn Saltlux Technology.</p>\n" +
                 "<p>BOT ADMIN thay mặt cán bộ nhân viên gửi thư góp ý tới bộ phận công đoàn.</p>\n" +
-                "<p>Hình thức gửi "+trangThaiAnDanh+"</p>\n" +
-                "<p>Nhân viên góp ý : "+hoten+"</p>\n" +
-                "<p>Nội dung: "+noiDung+"</p>\n" +
+                "<p>Hình thức gửi " + trangThaiAnDanh + "</p>\n" +
+                "<p>Nhân viên góp ý : " + hoten + "</p>\n" +
+                "<p>Nội dung: " + noiDung + "</p>\n" +
                 "<p>&nbsp;</p>\n" +
                 "<p>Thân gửi</p>";
         mailMessage.setContent(emailBody, "text/html; charset=utf-8");
@@ -81,7 +84,7 @@ public class SendEmailController {
 
 
     @GetMapping("/email_gop_y_file")
-    public static void sendFile() throws AddressException, MessagingException {
+    public static void sendFile() throws MessagingException {
         Properties mailServerProperties;
         Session getMailSession;
         MimeMessage mailMessage;
@@ -117,7 +120,7 @@ public class SendEmailController {
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messagePart);
         multipart.addBodyPart(filePart);
-        mailMessage.setContent(multipart );
+        mailMessage.setContent(multipart);
 
 
         // Step3: Send mail

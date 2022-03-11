@@ -30,14 +30,14 @@ import java.util.List;
 public class CongDoanController {
 
     @Value("${email.to}")
-    public  String FRIEND_EMAIL ;
+    public String FRIEND_EMAIL;
 
     @Value("${email.from}")
-    public  String MY_EMAIL ;
+    public String MY_EMAIL;
 
 
     @Value("${email.password}")
-    public  String PASSWORD ;
+    public String PASSWORD;
 
 
     @Autowired
@@ -81,7 +81,7 @@ public class CongDoanController {
             int tongTienThang10 = 0;
             int tongTienThang11 = 0;
             int tongTienThang12 = 0;
-            int sum=0;
+            int sum = 0;
             for (DongQuyCongDoanEntity convert : list) {
 
                 Date date = convert.getNgayDong();
@@ -123,13 +123,13 @@ public class CongDoanController {
                 if (month == 12) {
                     tongTienThang12 += convert.getSoTien();
                 }
-                sum=tongTienThang1+tongTienThang2+tongTienThang3+tongTienThang4+tongTienThang5+tongTienThang6+tongTienThang7+tongTienThang8+tongTienThang9+
-                        tongTienThang10+tongTienThang11+tongTienThang12;
+                sum = tongTienThang1 + tongTienThang2 + tongTienThang3 + tongTienThang4 + tongTienThang5 + tongTienThang6 + tongTienThang7 + tongTienThang8 + tongTienThang9 +
+                        tongTienThang10 + tongTienThang11 + tongTienThang12;
 
             }
             TongHopThuQuyCongDoanDto dto = new TongHopThuQuyCongDoanDto(user.getHoTen(), tongTienThang1, tongTienThang2, tongTienThang3,
                     tongTienThang4, tongTienThang5, tongTienThang6, tongTienThang7, tongTienThang8, tongTienThang9,
-                    tongTienThang10, tongTienThang11, tongTienThang12,sum);
+                    tongTienThang10, tongTienThang11, tongTienThang12, sum);
             converts.add(dto);
         }
 
@@ -179,74 +179,74 @@ public class CongDoanController {
 
         return dtos;
     }
+
     @GetMapping("/chi_tiet_thu_tung_nguoi")
     public TongHopThuQuyCongDoanDto chiTietThuTungNguoi(@RequestParam Integer userId, @RequestParam Integer year) {
         UserEntity user = service.findByUserId(userId);
 
 
+        List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
+        int tongTienThang1 = 0;
+        int tongTienThang2 = 0;
+        int tongTienThang3 = 0;
+        int tongTienThang4 = 0;
+        int tongTienThang5 = 0;
+        int tongTienThang6 = 0;
+        int tongTienThang7 = 0;
+        int tongTienThang8 = 0;
+        int tongTienThang9 = 0;
+        int tongTienThang10 = 0;
+        int tongTienThang11 = 0;
+        int tongTienThang12 = 0;
+        int sum = 0;
+        for (DongQuyCongDoanEntity convert : list) {
 
-            List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
-            int tongTienThang1 = 0;
-            int tongTienThang2 = 0;
-            int tongTienThang3 = 0;
-            int tongTienThang4 = 0;
-            int tongTienThang5 = 0;
-            int tongTienThang6 = 0;
-            int tongTienThang7 = 0;
-            int tongTienThang8 = 0;
-            int tongTienThang9 = 0;
-            int tongTienThang10 = 0;
-            int tongTienThang11 = 0;
-            int tongTienThang12 = 0;
-            int sum=0;
-            for (DongQuyCongDoanEntity convert : list) {
-
-                Date date = convert.getNgayDong();
-                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                int month = localDate.getMonthValue();
-                if (month == 1) {
-                    tongTienThang1 += convert.getSoTien();
-                }
-                if (month == 2) {
-                    tongTienThang2 += convert.getSoTien();
-                }
-                if (month == 3) {
-                    tongTienThang3 += convert.getSoTien();
-                }
-                if (month == 4) {
-                    tongTienThang4 += convert.getSoTien();
-                }
-                if (month == 5) {
-                    tongTienThang5 += convert.getSoTien();
-                }
-                if (month == 6) {
-                    tongTienThang6 += convert.getSoTien();
-                }
-                if (month == 7) {
-                    tongTienThang7 += convert.getSoTien();
-                }
-                if (month == 8) {
-                    tongTienThang8 += convert.getSoTien();
-                }
-                if (month == 9) {
-                    tongTienThang9 += convert.getSoTien();
-                }
-                if (month == 10) {
-                    tongTienThang10 += convert.getSoTien();
-                }
-                if (month == 11) {
-                    tongTienThang11 += convert.getSoTien();
-                }
-                if (month == 12) {
-                    tongTienThang12 += convert.getSoTien();
-                }
-                sum=tongTienThang1+tongTienThang2+tongTienThang3+tongTienThang4+tongTienThang5+tongTienThang6+tongTienThang7+tongTienThang8+tongTienThang9+
-                        tongTienThang10+tongTienThang11+tongTienThang12;
-
+            Date date = convert.getNgayDong();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int month = localDate.getMonthValue();
+            if (month == 1) {
+                tongTienThang1 += convert.getSoTien();
             }
-            TongHopThuQuyCongDoanDto dto = new TongHopThuQuyCongDoanDto(user.getHoTen(), tongTienThang1, tongTienThang2, tongTienThang3,
-                    tongTienThang4, tongTienThang5, tongTienThang6, tongTienThang7, tongTienThang8, tongTienThang9,
-                    tongTienThang10, tongTienThang11, tongTienThang12,sum);
+            if (month == 2) {
+                tongTienThang2 += convert.getSoTien();
+            }
+            if (month == 3) {
+                tongTienThang3 += convert.getSoTien();
+            }
+            if (month == 4) {
+                tongTienThang4 += convert.getSoTien();
+            }
+            if (month == 5) {
+                tongTienThang5 += convert.getSoTien();
+            }
+            if (month == 6) {
+                tongTienThang6 += convert.getSoTien();
+            }
+            if (month == 7) {
+                tongTienThang7 += convert.getSoTien();
+            }
+            if (month == 8) {
+                tongTienThang8 += convert.getSoTien();
+            }
+            if (month == 9) {
+                tongTienThang9 += convert.getSoTien();
+            }
+            if (month == 10) {
+                tongTienThang10 += convert.getSoTien();
+            }
+            if (month == 11) {
+                tongTienThang11 += convert.getSoTien();
+            }
+            if (month == 12) {
+                tongTienThang12 += convert.getSoTien();
+            }
+            sum = tongTienThang1 + tongTienThang2 + tongTienThang3 + tongTienThang4 + tongTienThang5 + tongTienThang6 + tongTienThang7 + tongTienThang8 + tongTienThang9 +
+                    tongTienThang10 + tongTienThang11 + tongTienThang12;
+
+        }
+        TongHopThuQuyCongDoanDto dto = new TongHopThuQuyCongDoanDto(user.getHoTen(), tongTienThang1, tongTienThang2, tongTienThang3,
+                tongTienThang4, tongTienThang5, tongTienThang6, tongTienThang7, tongTienThang8, tongTienThang9,
+                tongTienThang10, tongTienThang11, tongTienThang12, sum);
         return dto;
     }
 
@@ -263,17 +263,17 @@ public class CongDoanController {
     }
 
     @PostMapping("/hom_thu_gop_y")
-    public Integer save(@Valid @RequestBody HomThuGopYReq request) throws MissingServletRequestParameterException, InvocationTargetException, NoSuchMethodException, DuplicatedColumnsException, IllegalAccessException, MessagingException {
-        int anDanh=request.getAnDanh();
-        String hoTen=request.getNguoiGui();
-        String noiDung=request.getNoiDung();
-        String tieuDe=request.getTieuDe();
-        SendEmailFeedbackThread T1 = new SendEmailFeedbackThread("SendEmail",tieuDe,anDanh, hoTen,noiDung, FRIEND_EMAIL, MY_EMAIL,PASSWORD);
+    public Integer save(@Valid @RequestBody HomThuGopYReq request) throws MissingServletRequestParameterException{
+        int anDanh = request.getAnDanh();
+        String hoTen = request.getNguoiGui();
+        String noiDung = request.getNoiDung();
+        String tieuDe = request.getTieuDe();
+        SendEmailFeedbackThread T1 = new SendEmailFeedbackThread("SendEmail", tieuDe, anDanh, hoTen, noiDung, FRIEND_EMAIL, MY_EMAIL, PASSWORD);
         T1.start();
         if (request == null) {
             throw new MissingServletRequestParameterException(null, null);
         }
-         homThuGopYService.saveHomThuGopY(request);
+        homThuGopYService.saveHomThuGopY(request);
 
 
 //        emailService.sendMailHTML(tieuDe,anDanh, hoTen, noiDung);
@@ -319,8 +319,6 @@ public class CongDoanController {
 
         return list;
     }
-
-
 
 
     @GetMapping("/ke_hoach_thu_chi")

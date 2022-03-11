@@ -22,7 +22,6 @@ public class NgayLeEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "ten_ngay_le")
     private String tenNgayLe;
 

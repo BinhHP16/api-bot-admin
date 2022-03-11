@@ -20,7 +20,6 @@ public class MauBieuEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "ten_mau_bieu")
     private String tenMauBieu;
 

@@ -17,11 +17,9 @@ import java.util.Properties;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SendEmailRecruitThread extends Thread{
+public class SendEmailRecruitThread extends Thread {
     private Thread t;
     private String threadName;
-
-
     private String hoTen;
     private String viTri;
     private String link;
@@ -30,9 +28,9 @@ public class SendEmailRecruitThread extends Thread{
     private String PASSWORD;
 
     public SendEmailRecruitThread(String name, String link, String hoTen, String viTri, String FRIEND_EMAIL,
-                                   String MY_EMAIL, String PASSWORD) {
+                                  String MY_EMAIL, String PASSWORD) {
         threadName = name;
-        this.link=link;
+        this.link = link;
         this.hoTen = hoTen;
         this.viTri = viTri;
         this.FRIEND_EMAIL = FRIEND_EMAIL;
@@ -65,13 +63,13 @@ public class SendEmailRecruitThread extends Thread{
 //    generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("cc@gmail.com")); //Địa chỉ cc gmail
 
 
-            mailMessage.setSubject(hoTen+"_"+viTri);
+            mailMessage.setSubject(hoTen + "_" + viTri);
             String emailBody = "<p>Thân gửi BP Nhân sự Saltlux Technology.</p>\n" +
-                    "<p>BOT ADMIN thay mặt ứng viên "+hoTen+" gửi thông tin ứng tuyển.</p>\n" +
+                    "<p>BOT ADMIN thay mặt ứng viên " + hoTen + " gửi thông tin ứng tuyển.</p>\n" +
                     "<ul>\n" +
-                    "<li>Họ tên: "+hoTen+"</li>\n" +
-                    "<li>Vị trí: "+viTri+"</li>\n" +
-                    "<li> <a href=\""+link+"\" >Link CV</a></a></li>\n" +
+                    "<li>Họ tên: " + hoTen + "</li>\n" +
+                    "<li>Vị trí: " + viTri + "</li>\n" +
+                    "<li> <a href=\"" + link + "\" >Link CV</a></a></li>\n" +
                     "</ul>\n" +
                     "<p>Thân gửi!</p>";
             mailMessage.setContent(emailBody, "text/html; charset=utf-8");
@@ -95,7 +93,7 @@ public class SendEmailRecruitThread extends Thread{
         if (t == null) {
             t = new Thread(this, threadName);
             t.start();
-            System.out.println("End Thread : "+ threadName);
+            System.out.println("End Thread : " + threadName);
         }
     }
 

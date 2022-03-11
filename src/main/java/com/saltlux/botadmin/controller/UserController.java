@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "User")
@@ -52,28 +51,6 @@ public class UserController {
         return results;
     }
 
-
-//    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-//    public String uploadFile(@RequestParam("file") MultipartFile multipartFile, Model model) {
-//        model.addAttribute("message", "Upload success");
-////		model.addAttribute("description", myFile.getDescription());
-//        UUID uuid = UUID.randomUUID();
-//        try {
-////			MultipartFile multipartFile = myFile.getMultipartFile();
-//            String fileName = multipartFile.getOriginalFilename();
-//
-//            File file = new File("D:/TestUpload", fileName);
-//
-//            File file2 = new File("D:/TestUpload", uuid + fileName);
-//
-//            file.renameTo(file2);
-//            multipartFile.transferTo(file2);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            model.addAttribute("message", "upload failed");
-//        }
-//        return "result";
-//    }
 
 }
 

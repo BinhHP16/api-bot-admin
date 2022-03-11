@@ -21,14 +21,5 @@ public class BotAdminApplication {
 
     }
 
-    public static boolean verify(String inputPassword, String hashPassWord)
-            throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(inputPassword.getBytes());
-        byte[] digest = md.digest();
-        String myChecksum = DatatypeConverter
-                .printHexBinary(digest).toUpperCase();
-        return hashPassWord.equals(myChecksum);
-    }
 
 }

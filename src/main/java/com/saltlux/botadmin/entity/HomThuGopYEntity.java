@@ -39,7 +39,6 @@ public class HomThuGopYEntity implements Serializable {
     @Column(name = "status_an_danh")
     private Integer anDanh;
 
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "thoi_gian",columnDefinition = "DATE_TIME")
     private Date thoiGian;

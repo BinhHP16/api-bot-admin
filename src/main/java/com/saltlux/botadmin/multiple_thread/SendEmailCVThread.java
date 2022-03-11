@@ -22,11 +22,9 @@ import java.util.Properties;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SendEmailCVThread extends Thread{
+public class SendEmailCVThread extends Thread {
     private Thread t;
     private String threadName;
-
-
     private String hoTen;
     private String viTri;
     private String filePath;
@@ -35,9 +33,9 @@ public class SendEmailCVThread extends Thread{
     private String PASSWORD;
 
     public SendEmailCVThread(String name, String filePath, String hoTen, String viTri, String FRIEND_EMAIL,
-                                  String MY_EMAIL, String PASSWORD) {
+                             String MY_EMAIL, String PASSWORD) {
         threadName = name;
-        this.filePath=filePath;
+        this.filePath = filePath;
         this.hoTen = hoTen;
         this.viTri = viTri;
         this.FRIEND_EMAIL = FRIEND_EMAIL;
@@ -71,12 +69,12 @@ public class SendEmailCVThread extends Thread{
 //    generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("cc@gmail.com")); //Địa chỉ cc gmail
 
             // Tạo phần gửi message
-            mailMessage.setSubject(hoTen+"_"+viTri);
+            mailMessage.setSubject(hoTen + "_" + viTri);
             BodyPart messagePart = new MimeBodyPart();
             messagePart.setText("Thân gửi BP Nhân sự Saltlux Technology.\n" +
-                    "BOT ADMIN thay mặt ứng viên "+hoTen+" gửi thông tin ứng tuyển.\n" +
-                    "Họ tên: "+hoTen+"\n" +
-                    "Vị trí: "+viTri+"\n" +
+                    "BOT ADMIN thay mặt ứng viên " + hoTen + " gửi thông tin ứng tuyển.\n" +
+                    "Họ tên: " + hoTen + "\n" +
+                    "Vị trí: " + viTri + "\n" +
                     "CV như file đính kèm \n" +
                     "Thân gửi!");
 
@@ -91,7 +89,7 @@ public class SendEmailCVThread extends Thread{
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messagePart);
             multipart.addBodyPart(filePart);
-            mailMessage.setContent(multipart ,"text/html; charset=utf-8");
+            mailMessage.setContent(multipart, "text/html; charset=utf-8");
 
             // Step3: Send mail
             Transport transport = getMailSession.getTransport("smtp");
@@ -112,7 +110,7 @@ public class SendEmailCVThread extends Thread{
         if (t == null) {
             t = new Thread(this, threadName);
             t.start();
-            System.out.println("End Thread : "+ threadName);
+            System.out.println("End Thread : " + threadName);
         }
     }
 

@@ -22,7 +22,6 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "ho_ten")
     private String hoTen;
 

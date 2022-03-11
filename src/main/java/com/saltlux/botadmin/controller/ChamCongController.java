@@ -24,7 +24,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,29 +45,9 @@ public class ChamCongController {
     @Autowired
     INgayNghiPhepService ngayNghiPhepService;
 
-
     @Value("${thoiGianLamViecQuyDinh}")
     private String thoiGianLamViecQuyDinh;
 
-//    @GetMapping("/ngay_nghi_phep")
-//    public List<UserNgayNghiPhepDto> getAll() {
-//        List<UserEntity> listUser = service.getAll();
-//        List<UserNgayNghiPhepDto> listNgayNghiPhep = new ArrayList<>();
-//        for (UserEntity user : listUser) {
-//            List<NgayNghiPhepConvertDto> converts = new ArrayList<>();
-//            Double count = 0.0;
-//            for (NgayNghiPhepEntity convert : user.getListNgayNghiPhep()) {
-//                NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getId(), convert.getNgayNghiPhep(), convert.getManDay());
-//                converts.add(ngayNghi);
-//                count += convert.getManDay();
-//            }
-//
-//            UserNgayNghiPhepDto dto = new UserNgayNghiPhepDto(user.getId(), user.getHoTen(), user.getSoNgayNghiPhepTieuChuan(), user.getBoPhan(), converts, count, (user.getSoNgayNghiPhepTieuChuan() - count));
-//            listNgayNghiPhep.add(dto);
-//        }
-//
-//        return listNgayNghiPhep;
-//    }
 
     @GetMapping("/thong_tin_ngay_nghi_phep")
     public UserNgayNghiPhepDto thongTinNgayNghiPhep(@RequestParam Integer userId, @RequestParam Integer year) {
@@ -126,52 +105,12 @@ public class ChamCongController {
             converts.add(ngayNghi);
             count += convert.getManDay();
         }
-        if(converts.size()==0){
+        if (converts.size() == 0) {
             NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(null, 0.0, "", "", "", "");
             converts.add(ngayNghi);
         }
         return converts;
     }
-//
-//    @GetMapping("/checkin")
-//    public List<UserCheckinConvertDto> checkin() {
-//        List<UserEntity> listUser = service.getAll();
-//        List<UserCheckinConvertDto> listCheckin = new ArrayList<>();
-//        for (UserEntity user : listUser) {
-//            List<Date> converts = new ArrayList<>();
-//
-//            for (CheckinEntity convert : user.getListCheckin()) {
-//
-//                converts.add(convert.getThoiGianCheckIn());
-//            }
-//            UserCheckinConvertDto dto = new UserCheckinConvertDto(user.getId(), user.getHoTen(), user.getBoPhan(), user.getSdt(), user.getEmail(), converts);
-//            listCheckin.add(dto);
-//        }
-//
-//        return listCheckin;
-//    }
-
-//
-//    @GetMapping("/checkin/{userId}")
-//    public UserCheckinConvertDto chiTietCheckin(@PathVariable(name = "userId") Integer userId, @RequestParam Integer month) {
-//        UserEntity user = service.findByUserId(userId);
-//
-//        List<CheckinEntity> checkins = serviceCheckin.findByUserIdAndMonth(userId, month);
-//
-//
-//        List<Date> converts = new ArrayList<>();
-//
-//        for (CheckinEntity convert : checkins) {
-////            if(convert.getThoiGianCheckIn()>thoiGianLamViecQuyDinh && convert.getThoiGianCheckIn().getDate()==month){
-////            converts.add(convert.getThoiGianCheckIn());
-////        }
-//            converts.add(convert.getThoiGianCheckIn());
-//
-//        }
-//
-//        UserCheckinConvertDto dto = new UserCheckinConvertDto(user.getId(), user.getHoTen(), user.getBoPhan(), user.getSdt(), user.getEmail(), converts);
-//        return dto;
-//    }
 
     @GetMapping("/")
     public ChamCongDto chamCong(@RequestParam Integer userId, @RequestParam Integer month, @RequestParam Integer year) {
@@ -256,7 +195,6 @@ public class ChamCongController {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 
 
-
         List<ChiTietDiMuonDto> list = new ArrayList<>();
         for (CheckinEntity entity : listCheckin) {
 
@@ -278,18 +216,17 @@ public class ChamCongController {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd");
                 String formatDate = simpleDateFormat.format(entity.getNgayCheckIn());
 
-                ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto( entity.getNgayCheckIn(), minutes,formatDate);
+                ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(entity.getNgayCheckIn(), minutes, formatDate);
                 list.add(chiTietDiMuonDto);
             }
 
         }
-        if(list.size()==0){
-            ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(null, 0,null);
+        if (list.size() == 0) {
+            ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(null, 0, null);
             list.add(chiTietDiMuonDto);
         }
         return list;
     }
-
 
     boolean isCheck(int nam) {
         return ((nam % 4 == 0 && nam % 100 != 0) || nam % 400 == 0);

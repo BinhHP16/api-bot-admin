@@ -19,10 +19,8 @@ import java.util.Properties;
 @NoArgsConstructor
 public class SendEmailFeedbackThread extends Thread {
 
-
     private Thread t;
     private String threadName;
-
     private String tieuDe;
     private int anDanh;
     private String hoTen;

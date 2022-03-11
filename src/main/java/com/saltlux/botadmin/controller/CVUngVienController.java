@@ -44,63 +44,6 @@ public class CVUngVienController {
     @Autowired
     IEmailService emailService;
 
-
-//    @PostMapping("/uploadCV")
-//    public String uploadFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("hoTen") String hoTen,
-//                             @RequestParam("viTri") String viTri) {
-////        model.addAttribute("message", "upload success");
-//        UUID uuid = UUID.randomUUID();
-//        try {
-//            String fileName = multipartFile.getOriginalFilename();
-//
-//            File file = new File(tuyenDungDir+"/tuyen_dung/", fileName);
-//
-//            File file2 = new File(tuyenDungDir+"/tuyen_dung/", uuid + fileName);
-//
-//            file.renameTo(file2);
-//            multipartFile.transferTo(file2);
-//
-//            CVDto request = new CVDto(hoTen, viTri, uuid + fileName);
-//            ungVienService.save(request);
-//
-//            BodyPart filePart = new MimeBodyPart();
-//            DataSource source = new FileDataSource(file2);
-//            filePart.setDataHandler(new DataHandler(source));
-//            filePart.setFileName(file2.getName());
-////            emailService.sendEmailAttach(filePart,hoTen,viTri);
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-////            model.addAttribute("message", "upload failed");
-//        }
-//
-//        return "result";
-//    }
-
-//
-//    @GetMapping("/uploadCV")
-//    public String uploadCV(@RequestParam("link") String link, @RequestParam("hoTen") String hoTen,
-//                           @RequestParam("viTri") String viTri) {
-////        model.addAttribute("message", "upload success");
-//        SendEmailRecruitThread T2 = new SendEmailRecruitThread("SendEmailRecruit", link, hoTen, viTri, FRIEND_EMAIL, MY_EMAIL, PASSWORD);
-//        T2.start();
-//        try {
-//
-//            CVDto request = new CVDto(hoTen, viTri, link);
-//            ungVienService.save(request);
-////            emailService.sendEmailAttach(link, hoTen, viTri);
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-////            model.addAttribute("message", "upload failed");
-//        }
-//
-//        return "result";
-//    }
-
-
     @PostMapping("/upFile")
     public String uploadFile(HttpServletResponse response, @RequestParam("file") MultipartFile multipartFile) {
 //        model.addAttribute("message", "upload success");
@@ -128,7 +71,7 @@ public class CVUngVienController {
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public String downloadCV(HttpServletResponse response, String filePath) throws IOException {
+    public String downloadCV(HttpServletResponse response, String filePath) {
 
         try {
             File file = ResourceUtils.getFile(filePath);
@@ -148,7 +91,7 @@ public class CVUngVienController {
 
 
     @GetMapping("/uploadCVAndSendMail")
-    public String uploadCVAndSendEmail(HttpServletResponse response,@RequestParam("filePath") String filePath, @RequestParam("hoTen") String hoTen,
+    public String uploadCVAndSendEmail(HttpServletResponse response, @RequestParam("filePath") String filePath, @RequestParam("hoTen") String hoTen,
                                        @RequestParam("viTri") String viTri) throws IOException {
 
         File fileToUpload = ResourceUtils.getFile(filePath);
@@ -176,30 +119,5 @@ public class CVUngVienController {
         }
     }
 
-//    @PostMapping("/uploadFileToPath")
-//    public String uploadFileToPath(@RequestParam("filePath") String filePath) throws IOException {
-//        File fileToUpload = ResourceUtils.getFile(filePath);
-//
-//
-//        File file = new File(filePath);
-//        FileInputStream input = new FileInputStream(file);
-//        MultipartFile multipartFile = new MockMultipartFile("file",
-//                file.getName(), "text/plain", IOUtils.toByteArray(input));
-//
-//
-//        UUID uuid = UUID.randomUUID();
-//        try {
-//            String fileName = fileToUpload.getName();
-//            File file1 = new File(tuyenDungDir + "/tuyen_dung/", fileName);
-//            File file2 = new File(tuyenDungDir + "/tuyen_dung/", uuid + fileName);
-//            String newFilePath = tuyenDungDir + "/tuyen_dung/" + uuid + fileName;
-//            file1.renameTo(file2);
-//            multipartFile.transferTo(file2);
-//            return newFilePath;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "result";
-//    }
 
 }

@@ -12,7 +12,10 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 @Api(tags = "Mẫu biểu")
@@ -27,15 +30,14 @@ public class MauBieuController {
     @Value("${document.dir}")
     private String docDir;
 
-    private String dir="/mau_bieu/";
-
+    private String dir = "/mau_bieu/";
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public String downloadMauBieu(HttpServletResponse response, @RequestParam("code") String code) throws IOException {
-        MauBieuEntity mauBieu=service.findByCode(code);
+    public String downloadMauBieu(HttpServletResponse response, @RequestParam("code") String code) {
+        MauBieuEntity mauBieu = service.findByCode(code);
 
         try {
-            File file = ResourceUtils.getFile(docDir+dir+mauBieu.getPath());
+            File file = ResourceUtils.getFile(docDir + dir + mauBieu.getPath());
 
             byte[] data = FileUtils.readFileToByteArray(file);
             // Thiết lập thông tin trả về
@@ -50,22 +52,15 @@ public class MauBieuController {
         return null;
     }
 
-
     @GetMapping("/list_mau_bieu/")
-    public List<MauBieuEntity> getAll( ) {
-       return service.findAll();
+    public List<MauBieuEntity> getAll() {
+        return service.findAll();
     }
-//
-//    @GetMapping("/list_download/")
-//    public List<FormDownLoadDto> listDownload( ) {
-//        List<FormDownLoadDto> formDtos=new ArrayList<>();
-//
-//        List<MauBieuEntity> entities=service.findAll();
-//        for (MauBieuEntity entity : entities) {
-//
-//        }
-//
-//        return formDtos;
-//    }
+
+    @GetMapping("/get_mau_bieu_by_code/")
+    public MauBieuEntity findByCode(String code) {
+        return service.findByCode(code);
+    }
+
 
 }
