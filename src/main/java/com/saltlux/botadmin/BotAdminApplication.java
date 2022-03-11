@@ -7,25 +7,17 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BotAdminApplication {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
+    public static void main(String[] args)  {
         SpringApplication.run(BotAdminApplication.class, args);
-//
-//        String password = "123456";
-//        MessageDigest md = MessageDigest.getInstance("MD5");
-//        md.update(password.getBytes());
-//        byte[] digest = md.digest();
-//        String myHash = DatatypeConverter
-//                .printHexBinary(digest).toUpperCase();
-//        System.out.println("My Hash: " + myHash);
-
-        System.out.println(new Date());
-        System.out.println("Verify: " + verify("123456", "E10ADC3949BA59ABBE56E057F20F883E"));
 
     }
 

@@ -15,7 +15,7 @@ public class CacKhoanChiPhiDto {
     private Integer id;
     private String noiDung;
     private Integer soTien;
-    private Date date;
+    private String date;
     private String ghiChu;
 
 }

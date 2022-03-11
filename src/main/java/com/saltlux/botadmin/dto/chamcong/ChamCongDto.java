@@ -14,6 +14,6 @@ public class ChamCongDto {
     private String thoiGian;
     private Double nghiPhep;
     private long diMuon;
-   private Double ngayCong;
+   private String ngayCong;
 
 }

@@ -144,41 +144,41 @@ public class CongDoanController {
     }
 
 
-//    @GetMapping("/chi_tiet_thu_tung_nguoi")
-//    public UserDongQuyConvertDto chiTietThuTungNguoi(@RequestParam Integer userId, @RequestParam Integer year) {
-//        UserEntity user = service.findByUserId(userId);
-//        List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
-//
-//
-//        List<TongHopThuQuyCongDoanTungNguoiDto> converts = new ArrayList<>();
-//
-//        int tongTien = 0;
-//        log.info("Show log to debug");
-//        for (int i = 1; i <= 12; i++) {
-//            int tongTienThang = 0;
-//            for (DongQuyCongDoanEntity convert : list) {
-//
-//                Date date = convert.getNgayDong();
-//                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//                int month = localDate.getMonthValue();
-//
-//                log.info(month);
-//                if (month == i) {
-//                    tongTienThang += convert.getSoTien();
-//                    tongTien += convert.getSoTien();
-//                }
-//            }
-//            TongHopThuQuyCongDoanTungNguoiDto dto = new TongHopThuQuyCongDoanTungNguoiDto("Tháng " + i, tongTienThang);
-//            converts.add(dto);
-//        }
-//
-//
-//        UserDongQuyConvertDto dtos = new UserDongQuyConvertDto(user.getId(),
-//                user.getHoTen(), tongTien, converts);
-//
-//
-//        return dtos;
-//    }
+    @GetMapping("/detail_a_person")
+    public UserDongQuyConvertDto detailPerson(@RequestParam Integer userId, @RequestParam Integer year) {
+        UserEntity user = service.findByUserId(userId);
+        List<DongQuyCongDoanEntity> list = dongQuyCongDoanService.findByUserIdAndYear(userId, year);
+
+
+        List<TongHopThuQuyCongDoanTungNguoiDto> converts = new ArrayList<>();
+
+        int tongTien = 0;
+        log.info("Show log to debug");
+        for (int i = 1; i <= 12; i++) {
+            int tongTienThang = 0;
+            for (DongQuyCongDoanEntity convert : list) {
+
+                Date date = convert.getNgayDong();
+                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                int month = localDate.getMonthValue();
+
+                log.info(month);
+                if (month == i) {
+                    tongTienThang += convert.getSoTien();
+                    tongTien += convert.getSoTien();
+                }
+            }
+            TongHopThuQuyCongDoanTungNguoiDto dto = new TongHopThuQuyCongDoanTungNguoiDto("Tháng " + i, tongTienThang);
+            converts.add(dto);
+        }
+
+
+        UserDongQuyConvertDto dtos = new UserDongQuyConvertDto(user.getId(),
+                user.getHoTen(), tongTien, converts);
+
+
+        return dtos;
+    }
     @GetMapping("/chi_tiet_thu_tung_nguoi")
     public TongHopThuQuyCongDoanDto chiTietThuTungNguoi(@RequestParam Integer userId, @RequestParam Integer year) {
         UserEntity user = service.findByUserId(userId);

@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChiTietDiMuonDto {
-    private String thoiGian;
     private Date ngay;
     private long diMuon;
+    private String date;
 }

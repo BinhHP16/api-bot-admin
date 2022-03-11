@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,7 +78,20 @@ public class ChamCongController {
         List<NgayNghiPhepConvertDto> converts = new ArrayList<>();
         Double count = 0.0;
         for (NgayNghiPhepEntity convert : nghiPhep) {
-            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getNgayNghiPhep(), convert.getManDay());
+            DateFormat format = new SimpleDateFormat("EEEE");
+            String finalDay = format.format(convert.getNgayNghiPhep());
+
+
+            SimpleDateFormat formatDay = new SimpleDateFormat("dd");
+            String strDate = formatDay.format(convert.getNgayNghiPhep());
+
+            SimpleDateFormat formatMonth = new SimpleDateFormat("MM");
+            String strMonth = formatMonth.format(convert.getNgayNghiPhep());
+
+            SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
+            String strYear = formatYear.format(convert.getNgayNghiPhep());
+
+            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getNgayNghiPhep(), convert.getManDay(), finalDay, strDate, strMonth, strYear);
             converts.add(ngayNghi);
             count += convert.getManDay();
         }
@@ -89,18 +104,32 @@ public class ChamCongController {
 
     @GetMapping("/chi_tiet_ngay_nghi_phep")
     public List<NgayNghiPhepConvertDto> chiTietNgayNghiPhep(@RequestParam Integer userId,
-                                                @RequestParam Integer month, @RequestParam Integer year) {
+                                                            @RequestParam Integer month, @RequestParam Integer year) {
         List<NgayNghiPhepEntity> nghiPhep = ngayNghiPhepService.chiTietNgayNghiPhep(userId, month, year);
 //        UserEntity user = service.findByUserId(userId);
         List<NgayNghiPhepConvertDto> converts = new ArrayList<>();
         Double count = 0.0;
         for (NgayNghiPhepEntity convert : nghiPhep) {
-            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getNgayNghiPhep(), convert.getManDay());
+            DateFormat format2 = new SimpleDateFormat("EEEE");
+            String finalDay = format2.format(convert.getNgayNghiPhep());
+//            System.out.println(finalDay);
+            SimpleDateFormat formatDay = new SimpleDateFormat("dd");
+            String strDate = formatDay.format(convert.getNgayNghiPhep());
+
+            SimpleDateFormat formatMonth = new SimpleDateFormat("MM");
+            String strMonth = formatMonth.format(convert.getNgayNghiPhep());
+
+            SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
+            String strYear = formatYear.format(convert.getNgayNghiPhep());
+
+            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(convert.getNgayNghiPhep(), convert.getManDay(), finalDay, strDate, strMonth, strYear);
             converts.add(ngayNghi);
             count += convert.getManDay();
         }
-
-//        UserNgayNghiPhepDto dto = new UserNgayNghiPhepDto(user.getId(), user.getHoTen(), user.getSoNgayNghiPhepTieuChuan(), user.getBoPhan(), converts, count);
+        if(converts.size()==0){
+            NgayNghiPhepConvertDto ngayNghi = new NgayNghiPhepConvertDto(null, 0.0, "", "", "", "");
+            converts.add(ngayNghi);
+        }
         return converts;
     }
 //
@@ -188,9 +217,9 @@ public class ChamCongController {
 
         }
 //        List<NgayLeDto> listNgayle
-        int soNgayT7CN=0;
-        int tongSoNgayCong=getDay(month,year);
-        for (int i = 1; i <=tongSoNgayCong;i++) {
+        int soNgayT7CN = 0;
+        int tongSoNgayCong = getDay(month, year);
+        for (int i = 1; i <= tongSoNgayCong; i++) {
 //            Calendar cal = Calendar.getInstance();
 //            cal.set(year, month, i);
 //            DateFormat formatter = new SimpleDateFormat("EEEE", Locale.getDefault());
@@ -201,34 +230,36 @@ public class ChamCongController {
 
             LocalDate date = LocalDate.of(year, month, i);
             DayOfWeek day = date.getDayOfWeek();
-            if(day.getValue()==6||day.getValue()==7){
-                soNgayT7CN+=1;
+            if (day.getValue() == 6 || day.getValue() == 7) {
+                soNgayT7CN += 1;
 
             }
 
         }
 
-        int ngayCongDuKien=tongSoNgayCong-soNgayT7CN;
+        int ngayCongDuKien = tongSoNgayCong - soNgayT7CN;
 
 
         double ngayCongThucTe = ngayCongDuKien - soNgayNghiPhep - ngayDiMuon;
+        String ngayCong = ngayCongThucTe + "/" + ngayCongDuKien;
 
 
-        ChamCongDto chamCong = new ChamCongDto(userName, thoiGian, soNgayNghiPhep, tongThoiGian, ngayCongThucTe);
+        ChamCongDto chamCong = new ChamCongDto(userName, thoiGian, soNgayNghiPhep, tongThoiGian, ngayCong);
         return chamCong;
     }
 
     @GetMapping("/chi_tiet_di_muon")
     public List<ChiTietDiMuonDto> chiTietDiMuon(@RequestParam Integer userId, @RequestParam Integer month, @RequestParam Integer year) {
 
-        String thoiGian = "" + month + "/" + year;
 
         List<CheckinEntity> listCheckin = serviceCheckin.findByUserIdAndMonthAndYearCheck(userId, month, year);
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 
 
+
         List<ChiTietDiMuonDto> list = new ArrayList<>();
         for (CheckinEntity entity : listCheckin) {
+
             Date d1 = null;
             Date d2 = null;
             try {
@@ -244,16 +275,20 @@ public class ChamCongController {
                 long diffMinutes = diff / (60 * 1000) % 60;
                 long diffHours = diff / (60 * 60 * 1000);
                 long minutes = diffHours * 60 + diffMinutes;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd");
+                String formatDate = simpleDateFormat.format(entity.getNgayCheckIn());
 
-                ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(thoiGian, entity.getNgayCheckIn(), minutes);
+                ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto( entity.getNgayCheckIn(), minutes,formatDate);
                 list.add(chiTietDiMuonDto);
             }
 
         }
+        if(list.size()==0){
+            ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(null, 0,null);
+            list.add(chiTietDiMuonDto);
+        }
         return list;
     }
-
-
 
 
     boolean isCheck(int nam) {

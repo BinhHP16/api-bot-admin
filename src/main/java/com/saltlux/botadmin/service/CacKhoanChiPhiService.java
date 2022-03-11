@@ -6,6 +6,7 @@ import com.saltlux.botadmin.repository.CacKhoanChiPhiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +23,10 @@ public class CacKhoanChiPhiService implements ICacKhoanChiPhiService {
         int tongChi=0;
         for (CacKhoanChiPhiEntity chiPhi:list) {
             tongChi+=chiPhi.getSoTien();
-
-                CacKhoanChiPhiDto dto=new CacKhoanChiPhiDto(chiPhi.getId(),chiPhi.getNoiDung(),chiPhi.getSoTien(),chiPhi.getThoiGian(),chiPhi.getGhiChu());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM");
+            String strDate = formatter.format(chiPhi.getThoiGian());
+                CacKhoanChiPhiDto dto=new CacKhoanChiPhiDto(chiPhi.getId(),chiPhi.getNoiDung(),chiPhi.getSoTien(),strDate,chiPhi.getGhiChu());
                 dtos.add(dto);
-
-
         }
         return dtos;
     }
@@ -38,10 +38,10 @@ public class CacKhoanChiPhiService implements ICacKhoanChiPhiService {
         int tongChi=0;
         for (CacKhoanChiPhiEntity chiPhi:list) {
             tongChi+=chiPhi.getSoTien();
-
-            CacKhoanChiPhiDto dto=new CacKhoanChiPhiDto(chiPhi.getId(),chiPhi.getNoiDung(),chiPhi.getSoTien(),chiPhi.getThoiGian(),chiPhi.getGhiChu());
-            dtos.add(dto);
-
+//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+//            String strDate = formatter.format(chiPhi.getThoiGian());
+//            CacKhoanChiPhiDto dto=new CacKhoanChiPhiDto(chiPhi.getId(),chiPhi.getNoiDung(),chiPhi.getSoTien(),strDate,chiPhi.getGhiChu());
+//            dtos.add(dto);
 
         }
         return tongChi;

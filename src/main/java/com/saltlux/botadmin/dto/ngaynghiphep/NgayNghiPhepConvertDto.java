@@ -15,6 +15,10 @@ public class NgayNghiPhepConvertDto {
 //    private Integer id;
     private Date ngayNghi;
     private Double manDay;
+    private String dayOfWeek;
+    private String day;
+    private String month;
+    private String year;
 
 
 
