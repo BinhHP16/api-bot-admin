@@ -7,6 +7,7 @@ import com.saltlux.botadmin.dto.ngaynghiphep.UserNgayNghiPhepDto;
 import com.saltlux.botadmin.entity.CheckinEntity;
 import com.saltlux.botadmin.entity.NgayNghiPhepEntity;
 import com.saltlux.botadmin.entity.UserEntity;
+import com.saltlux.botadmin.enumDayOfWeeks.DayOfWeeks;
 import com.saltlux.botadmin.service.ICheckinService;
 import com.saltlux.botadmin.service.INgayLeService;
 import com.saltlux.botadmin.service.INgayNghiPhepService;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,8 +60,27 @@ public class ChamCongController {
         List<NgayNghiPhepConvertDto> converts = new ArrayList<>();
         Double count = 0.0;
         for (NgayNghiPhepEntity convert : nghiPhep) {
-            DateFormat format = new SimpleDateFormat("EEEE");
-            String finalDay = format.format(convert.getNgayNghiPhep());
+//            DateFormat format = new SimpleDateFormat("EEEE");
+//            String finalDay = format.format(convert.getNgayNghiPhep());
+            String finalDay = "";
+            LocalDate localDate = convert.getNgayNghiPhep().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            DayOfWeek day = localDate.getDayOfWeek();
+            if (day.getValue() == DayOfWeek.MONDAY.getValue()) {
+                finalDay = DayOfWeeks.MONDAY;
+            }
+            if (day.getValue() == DayOfWeek.TUESDAY.getValue()) {
+                finalDay = DayOfWeeks.TUESDAY;
+            }
+            if (day.getValue() == DayOfWeek.WEDNESDAY.getValue()) {
+                finalDay = DayOfWeeks.WEDNESDAY;
+            }
+            if (day.getValue() == DayOfWeek.THURSDAY.getValue()) {
+                finalDay = DayOfWeeks.THURSDAY;
+            }
+            if (day.getValue() == DayOfWeek.FRIDAY.getValue()) {
+                finalDay = DayOfWeeks.FRIDAY;
+            }
+            System.out.println(day.getValue() == DayOfWeek.MONDAY.getValue());
 
 
             SimpleDateFormat formatDay = new SimpleDateFormat("dd");
@@ -89,9 +111,25 @@ public class ChamCongController {
         List<NgayNghiPhepConvertDto> converts = new ArrayList<>();
         Double count = 0.0;
         for (NgayNghiPhepEntity convert : nghiPhep) {
-            DateFormat format2 = new SimpleDateFormat("EEEE");
-            String finalDay = format2.format(convert.getNgayNghiPhep());
-//            System.out.println(finalDay);
+            String finalDay = "";
+            LocalDate localDate = convert.getNgayNghiPhep().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            DayOfWeek day = localDate.getDayOfWeek();
+            if (day.getValue() == DayOfWeek.MONDAY.getValue()) {
+                finalDay = DayOfWeeks.MONDAY;
+            }
+            if (day.getValue() == DayOfWeek.TUESDAY.getValue()) {
+                finalDay = DayOfWeeks.TUESDAY;
+            }
+            if (day.getValue() == DayOfWeek.WEDNESDAY.getValue()) {
+                finalDay = DayOfWeeks.WEDNESDAY;
+            }
+            if (day.getValue() == DayOfWeek.THURSDAY.getValue()) {
+                finalDay = DayOfWeeks.THURSDAY;
+            }
+            if (day.getValue() == DayOfWeek.FRIDAY.getValue()) {
+                finalDay = DayOfWeeks.FRIDAY;
+            }
+            System.out.println(day.getValue() == DayOfWeek.MONDAY.getValue());
             SimpleDateFormat formatDay = new SimpleDateFormat("dd");
             String strDate = formatDay.format(convert.getNgayNghiPhep());
 
@@ -198,11 +236,20 @@ public class ChamCongController {
         List<ChiTietDiMuonDto> list = new ArrayList<>();
         for (CheckinEntity entity : listCheckin) {
 
+
             Date d1 = null;
             Date d2 = null;
+//            LocalDateTime current = entity.getNgayCheckIn().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//            String formatted = current.format(formatter);
+
             try {
                 d1 = format.parse(thoiGianLamViecQuyDinh);
                 d2 = format.parse(entity.getThoiGianCheckIn().toString());
+//                d2 = format.parse(formatted);
+
+
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -216,13 +263,13 @@ public class ChamCongController {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd");
                 String formatDate = simpleDateFormat.format(entity.getNgayCheckIn());
 
-                ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(entity.getNgayCheckIn(), minutes, formatDate);
+                ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(entity.getNgayCheckIn(), minutes, formatDate,entity.getThoiGianCheckIn().toString());
                 list.add(chiTietDiMuonDto);
             }
 
         }
         if (list.size() == 0) {
-            ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(null, 0, null);
+            ChiTietDiMuonDto chiTietDiMuonDto = new ChiTietDiMuonDto(null, 0, null,null);
             list.add(chiTietDiMuonDto);
         }
         return list;

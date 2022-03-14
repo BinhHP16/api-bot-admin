@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ChiTietDiMuonDto {
     private Date ngay;
-    private long diMuon;
-    private String date;
+    private long thoiGianDiMuon;
+    private String day;
+    private String thoiGianCheckin;
 }

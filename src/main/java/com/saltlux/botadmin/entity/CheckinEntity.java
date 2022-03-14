@@ -34,7 +34,7 @@ public class CheckinEntity implements Serializable {
     private Date thoiGianCheckIn;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "ngay_check_in",columnDefinition = "DATE_TIME")
+    @Column(name = "ngay_check_in")
     private Date ngayCheckIn;
 
     @ManyToOne(fetch = FetchType.EAGER)
